@@ -14,7 +14,7 @@ public class Checking {
      * @param accountHolder the customer who owns the account
      * @param overDraftLimit the maximum overdraft limit allowed for the account
      */
-    public checking(int accountNumber, String accountHolder, double overDraftLimit) {
+    public void checking(int accountNumber, String accountHolder, double overDraftLimit) {
         super(accountNumber, accountHolder);//call the constructor of the parent class 
         this.overDraftLimit = overDraftLimit;// set the overdraft limit for the account
     }

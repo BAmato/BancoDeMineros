@@ -7,7 +7,6 @@ public class BankClasses{
 
 class Customer{
     
-    
     private String firstName;
     private String lastName;
     private String dob;
@@ -76,23 +75,23 @@ class Credit{
         this.principle = principle;
     }
 
-    public float getPrinciple(Account account){
+    public float getPrinciple(Customer account){
         return this.principle;
     }
 
-    public int getPaymentPeriod(Account account){
+    public int getPaymentPeriod(Customer account){
         return this.paymentPeriod;
     }
 
-    public int getCreditLimit(Account account){
+    public int getCreditLimit(Customer account){
         return this.creditLimit;
     }
 
-    public void displayInformation(Account account){
+    public void displayInformation(Customer account){
         System.out.println("Display info callled under credit object");
     }
 
-    private boolean creditTransaction(Account account, float amount){
+    private boolean creditTransaction(Customer account, float amount){
         System.out.println("Credit transaction called under credit object");
         return true;
     }

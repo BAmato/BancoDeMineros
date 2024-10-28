@@ -3,19 +3,30 @@
  * Main class to run the bank system.
  * This class will initialize bank users, manage their accounts, and provide user interaction options.
  */
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.ListIterator;;
 
 public class RunBank {
 
     // Map to store customers by their ID
     private Map<Integer, Customer> customers = new HashMap<>();
+
+    /*Creating a list that will hold all maps containing the database data.
+    The map consists of a string holding the header (column name) and row containing all the headers data.
+    Using a list allows us for dynamic sizing as the size of the excel file is assumed to be unknown*/
+    List<Map<String, Object>> customerList = new ArrayList<>();     
+    
     private Scanner scanner = new Scanner(System.in);
     private static final String LOG_FILE = "Bank_transaction.log";//log file name
 
@@ -25,7 +36,8 @@ public class RunBank {
      */
     public static void main(String[] args) {
         RunBank bank = new RunBank();
-        bank.initializeBankUsers();
+       // bank.initializeBankUsers();
+        bank.createMap();
         bank.displayAllCustomers();  // display all customer data
         bank.runMenu();
     }
@@ -96,14 +108,117 @@ public class RunBank {
         }
     }
 
+    public void createMap(){
+
+        String database = "C:\\Users\\bryan\\Downloads\\BankUsersTest.csv";            //File name in folder must match this
+       // String database = "BankUsersActive.csv"
+        String newFile = "BankUsersNew.csv";                //New file with modified values
+
+
+
+        /*Try-catch block to handle any issues encountered when reading the .csv file */
+        try (BufferedReader br = new BufferedReader(new FileReader(database))){
+
+            System.out.println("Reading file: "+database);
+            //The bufferedReader will capture a full row as a string which we can parse and store column values
+            String line;
+            String[] headers = null;
+            int addressIndex = 0;
+            //int j = 0;
+
+            while((line = br.readLine()) != null){          //While the current row is not null
+
+                String[] values = line.split(",");          //Parse each cell using the comma delimiter
+                
+                /*If the header is null, store all header values. This condition allows us to store the header
+                row only once which will help us store the data according to their type and identify the type
+                of data in each column (assumed to be unknown to the user)*/
+                if(headers == null){                       
+                    headers = values;
+                    
+                    for(int i = 0;i<headers.length;i++){
+                        if(headers[i].matches("Address")){
+                            addressIndex = i;
+                            System.out.println("Address Header Index: "+i);
+                        }
+                    }
+                }
+
+                //Once the header row has been stored, we can populate the hashmap  
+                else{
+                    Map<String, Object> customerMap = new HashMap<>();
+                    
+                    int i = -1;
+                    int j = 0;
+                    for(i = 0; i<headers.length; i++){          //iterate through all columns
+                        
+                        //if(i == addressIndex && i + 2 < values.length)
+                        if(i== addressIndex){
+                            String address = values[j] + ", " + values[j+1] + ", " + values[j+2];
+                            customerMap.put(headers[i], address);
+                            j += 3;
+                        }
+                        else if(values[j].matches("-?\\d+")){
+                            System.out.println("Integer found: "+values[j]);
+                            customerMap.put(headers[i], Integer.parseInt(values[j]));   // If value is an integer
+                            j++;
+                        }
+                        else if(values[j].matches("-?\\d+\\.\\d+")){
+                            System.out.println("Double found: "+values[j]);
+                            customerMap.put(headers[i], Double.parseDouble(values[j])); // If value is a double 
+                            j++;
+                        }
+                        else {
+                            System.out.println("String found: "+values[j]);
+                            customerMap.put(headers[i], values[j]); // Otherwise, treat it as a string
+                            j++;
+                        }
+                        System.out.println("Header: " + headers[i] + ", Value: " + values[j-1]);
+                    }
+                    customerList.add(customerMap);
+                }    
+
+                // for(Map.Entry<String, Object> entry: customerMap.entrySet()){
+                //     String[] value = entry;
+
+                // }
+                
+            };
+            
+            // for(Map<String, Object> customer : customerList){
+            //     System.out.println(customer.get("Identification Number"));
+            // }
+            // for (Map<String, Object> customer : customerList) {
+            //     for (Map.Entry<String, Object> entry : customer.entrySet()) {
+            //         System.out.println(entry.getKey() + ": " + entry.getValue());
+            //     }
+            //     System.out.println("---------------------------------");
+            // }
+            System.out.println("File read successfully.");
+        }
+        catch(Exception e){                     //Handle any errors encountered while reading the file
+            System.out.println("Error: "+e);
+        }
+        System.out.println("Map created. Size: "+customerList.size());
+    };
+
     /**
      * Displays all customers and their account details.
      */
     public void displayAllCustomers() {
-        for (Customer customer : customers.values()) {
-            customer.displayCustomerDetails();
-            System.out.println("--------------------------------------------");
+        ListIterator<Map<String, Object>> it = customerList.listIterator();
+        while(it.hasNext()){
+            //System.out.println(it.next());
+            //System.out.println(it.next());
+            Map<String, Object> temp = it.next();
+            System.out.println(temp.getCustomerId);
         }
+        
+        // for (Map<String, Object> customer : customerList) {
+        //     System.out.println("ID: "+customer.getCustomerId);
+        //    // customer.displayCustomerDetails();
+        //     System.out.println("--------------------------------------------");
+        // }
     }
 
     /**

@@ -38,7 +38,7 @@ public class RunBank {
         RunBank bank = new RunBank();
        // bank.initializeBankUsers();
         bank.createMap();
-        bank.displayAllCustomers();  // display all customer data
+        bank.displayCustomerInformation();  // display all customer data
         bank.runMenu();
     }
      /**
@@ -55,66 +55,15 @@ public class RunBank {
 
 
     /**
-     * Initializes bank users from the uploaded from the file.
-     * This method simulates loading users into the bank system.
+     * Initializes bank users from the database file.
+     * This method simulates accessing bank system information.
      */
-    public void initializeBankUsers() {
-        // List of bank users (extracted from the file)
-        String[][] usersData = {
-            {"79", "Daniel", "A", "5-Mar-39", "500 W. University Ave, El Paso, TX 79968", "(915) 747-5042", "1078", "857.56", "2078", "3364.79", "3078", "7985", "-786.93"},
-            {"49", "Derek", "Aguirre", "5-May-41", "500 W. University Ave, El Paso, TX 79968", "(915) 747-5012", "1048", "1845.56", "2048", "3352.49", "3048", "8899", "-58.57"},
-            {"18", "Jafar", "Aladdin", "20-Jan-83", "1313 Disneyland Dr, Anaheim, CA 92802", "(714) 781-4636", "1017", "518.07", "2017", "2220.54", "3017", "3029", "-406.48"},
-            {"76", "Nathan", "Aun", "6-Aug-94", "500 W. University Ave, El Paso, TX 79968", "(915) 747-5039", "1075", "1352.30", "2075", "132.29", "3075", "8789", "-1240.71"},
-            {"38", "Alex", "Avila", "19-Oct-65", "500 W. University Ave, El Paso, TX 79968", "(915) 747-5001", "1037", "85.09", "2037", "516.33", "3037", "3484", "-1827.58"}
-        };
-
-        // Iterate through the data and create Customer and Account objects
-        for (String[] userData : usersData) {
-            int customerId = Integer.parseInt(userData[0]);
-            String firstName = userData[1];
-            String lastName = userData[2];
-            String name = firstName + " " + lastName;
-            String address = userData[4];
-            String dob = userData[3]; 
-            String phoneNumber = userData[5]; 
-
-            // Create a new customer
-            Customer customer = new Customer(name, address, customerId);
-
-            // Create checking account
-            int checkingAccountNumber = Integer.parseInt(userData[6]);
-            double checkingStartingBalance = Double.parseDouble(userData[7]);
-            Checking checkingAccount = new Checking(checkingAccountNumber, customer, 500); // Assuming an overdraft limit of 500
-            checkingAccount.deposit(checkingStartingBalance);
-            customer.addAccount(checkingAccount);
-
-            // Create savings account
-            int savingAccountNumber = Integer.parseInt(userData[8]);
-            double savingStartingBalance = Double.parseDouble(userData[9]);
-            Saving savingAccount = new Saving(savingAccountNumber, customer, 100); // Assuming a minimum balance of 100
-            savingAccount.deposit(savingStartingBalance);
-            customer.addAccount(savingAccount);
-
-            // Create credit account
-            int creditAccountNumber = Integer.parseInt(userData[10]);
-            double creditLimit = Double.parseDouble(userData[11]);
-            double principle = Double.parseDouble(userData[12]);
-            Credit creditAccount = new Credit(creditAccountNumber, customer, creditLimit);
-            creditAccount.charge(-principle); // Start with the negative balance
-            customer.addAccount(creditAccount);
-
-            // Add customer to the bank system
-            customers.put(customerId, customer);
-        }
-    }
 
     public void createMap(){
 
         String database = "C:\\Users\\bryan\\Downloads\\BankUsersTest.csv";            //File name in folder must match this
        // String database = "BankUsersActive.csv"
         String newFile = "BankUsersNew.csv";                //New file with modified values
-
-
 
         /*Try-catch block to handle any issues encountered when reading the .csv file */
         try (BufferedReader br = new BufferedReader(new FileReader(database))){
@@ -177,23 +126,7 @@ public class RunBank {
                     }
                     customerList.add(customerMap);
                 }    
-
-                // for(Map.Entry<String, Object> entry: customerMap.entrySet()){
-                //     String[] value = entry;
-
-                // }
-                
             };
-            
-            // for(Map<String, Object> customer : customerList){
-            //     System.out.println(customer.get("Identification Number"));
-            // }
-            // for (Map<String, Object> customer : customerList) {
-            //     for (Map.Entry<String, Object> entry : customer.entrySet()) {
-            //         System.out.println(entry.getKey() + ": " + entry.getValue());
-            //     }
-            //     System.out.println("---------------------------------");
-            // }
             System.out.println("File read successfully.");
         }
         catch(Exception e){                     //Handle any errors encountered while reading the file
@@ -205,20 +138,26 @@ public class RunBank {
     /**
      * Displays all customers and their account details.
      */
-    public void displayAllCustomers() {
+    public void displayCustomerInformation() {
+
+        //toFix: Call function from within Customer class instead of main
         ListIterator<Map<String, Object>> it = customerList.listIterator();
         while(it.hasNext()){
-            //System.out.println(it.next());
-            //System.out.println(it.next());
             Map<String, Object> temp = it.next();
-            System.out.println(temp.getCustomerId);
+            System.out.println("\n------------------- Customer Info ------------------------");
+            System.out.println("Customer Name: "+temp.get("First Name")+" "+temp.get("Last Name"));
+            System.out.println("Identification Number: "+temp.get("Identification Number"));
+            System.out.println("Date of Birth: "+temp.get("Date of Birth"));
+            System.out.println("Address: "+temp.get("Address"));
+            System.out.println("Phone Number: "+temp.get("Phone Number"));
+            System.out.println("Checking Account Number: "+temp.get("Checking Account Number"));
+            System.out.println("Checking Starting Balance: "+temp.get("Checking Starting Balance"));
+            System.out.println("Savings Account Number: "+temp.get("Savings Account Number"));
+            System.out.println("Savings Starting Balance: "+temp.get("Savings Starting Balance"));
+            System.out.println("Credit Account Number: "+temp.get("Credit Account Number"));
+            System.out.println("Credit Max: "+temp.get("Credit Max"));
+            System.out.println("Credit Starting Balance: "+temp.get("Credit Starting Balance"));
         }
-        
-        // for (Map<String, Object> customer : customerList) {
-        //     System.out.println("ID: "+customer.getCustomerId);
-        //    // customer.displayCustomerDetails();
-        //     System.out.println("--------------------------------------------");
-        // }
     }
 
     /**
@@ -271,7 +210,7 @@ public class RunBank {
                     handleTransfer();
                     break;
                 case 4:
-                    displayAllCustomers();
+                    displayCustomerInformation();
                     break;
                 case 5:
                     System.out.println("Exiting the system. Thank you for using El Paso Miners Bank!");

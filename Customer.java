@@ -13,6 +13,8 @@ public class Customer {
     private String name;
     private String address;
     private int customerId;
+    private String phoneNumber;
+    private String dob;
     
     private List<Account> accounts;// list of accounts owned by the customer
 
@@ -23,10 +25,12 @@ public class Customer {
      * @param address The address of the customer
      * @param customerId Unique ID associated with the customer
      */
-    public Customer(String name, String address, int customerId) {
+    public Customer(String name, String address, int customerId, String phoneNumber, String dob) {
         this.name = name;
         this.address = address;
         this.customerId = customerId;
+        this.phoneNumber = phoneNumber;
+        this.dob = dob;
         this.accounts = new ArrayList<>(); // Initialize an empty list of accounts
     }
 
@@ -99,16 +103,31 @@ public class Customer {
         return customerId;//customer's ID
     }
 
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber(){
+        return phoneNumber;
+    }
+
+    public void setDOB(String dob){
+        this.dob = dob;
+    }
+
+    public String getDOB(){
+        return dob;
+    }
     /**
      * Displays customer information name, address, and accounts.
      */
     public void displayCustomerDetails() {
-        System.out.println("Customer ID: " + customerId);// display customer's ID
-        System.out.println("Name: " + name);// display customer name
+        System.out.println("Identification Number: " + customerId);// display customer's ID
+        System.out.println("Name: " + this.name);// display customer name
         System.out.println("Address: " + address);//display customer address
         System.out.println("Accounts:");// display customer accounts
         for (Account account : accounts) {// account is equal to account
-            System.out.println(" - Account Number: " + account.getAccountNumber() + ", Balance: $" + account.getBalance());//display account number, and balance.
+            System.out.println(" - Account Number: " + account.getAccountNumber() + ", Balance: $" + account.getBalane(account));//display account number, and balance.
         }
     }
 };
@@ -123,8 +142,9 @@ public class Customer {
 
 class Account {
     private int accountNumber; //unique account number for each account
-    private double balance;//current balance in the account
+    //private double balance;//current balance in the account
     private Customer accountHolder;// the account holder associated with the account
+    private double balance;
 
     /**
      * constructor for account class
@@ -134,7 +154,7 @@ class Account {
     public Account(int accountNumber, Customer accountHolder){
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
-        this.balance = 0;// account starts with zero balance
+        //this.balance = 0;// account starts with zero balance
     }
 
     /**
@@ -171,9 +191,15 @@ class Account {
      * return the current balance of the account
      * @return balance (account balance)
      */
-    public double getBalance(){
-        return balance;
+    public double getBalance(Account account){
+        return account.balance;
     }
+
+    public void setBalance(Account account, double balance){
+        account.balance = balance;
+    }
+
+    
 
     /**
      * transfer founds from one account to another
@@ -225,6 +251,7 @@ class Account {
     }
 };
 
+// MAKE LIST OF SAVING AND CHECKING ACCOUNT THEN ITERATE THROUGH LIST TO ACCESS ACCOUNTS
 
 
 /**
@@ -243,10 +270,16 @@ class Checking extends Account{
      * @param accountNumber unique identifier for the account
      * @param accountHolder the customer who owns the account
      * @param overDraftLimit the maximum overdraft limit allowed for the account
+     * @param checkingStartingBalance the starting balance for checking account
+     * @param balance total balance of checking account
      */
-    public Checking(int accountNumber, Customer accountHolder, double overDraftLimit) {
+
+    private double balance;
+
+    public Checking(int accountNumber, Customer accountHolder, double overDraftLimit, double checkingStartingBalance) {
         super(accountNumber, accountHolder);//call the constructor of the parent class 
         this.overDraftLimit = overDraftLimit;// set the overdraft limit for the account
+        this.checkingStartingBalance = checkingStartingBalance;
     }
 
     /**
@@ -307,6 +340,14 @@ class Checking extends Account{
                 System.out.println("Overdraft limit have to be more than 0");// display overdraft have to be more than 0
         } 
     }
+
+    // public void setBalance(Acount account, double balance){
+    //     account.setBalance(balance);
+    // }
+
+    // public double getCheckingBalance(){
+    //     return this.balance;
+    // }
 };
 
 /**
@@ -318,16 +359,20 @@ class Checking extends Account{
 class Saving extends Account {
 
     private double minimumBalance;// minimum balance for saving account
+    private double savingsStartingBalance; //Starting balance
+    private double balance;
 
     /**
      * Constructor 
      * @param accountNumber Unique identifier for the account
      * @param accountHolder The customer who owns this account
      * @param minimumBalance The minimum balance required for this account
+     * @param balance total balance of checking account
      */
-    public Saving(int accountNumber, Customer accountHolder, double minimumBalance) {
+    public Saving(int accountNumber, Customer accountHolder, double savingsStartingBalance) {
         super(accountNumber, accountHolder);
-        this.minimumBalance = minimumBalance;
+        //this.minimumBalance = minimumBalance;
+        this.savingsStartingBalance = savingsStartingBalance;
     }
 
     /**
@@ -393,6 +438,14 @@ class Saving extends Account {
             System.out.println("Minimum balance cannot be less than $0");// otherwise display minimum amount can not be less than 0
         }
     }
+
+    public void setSavingsStartingBalance(double savingsStartingBalance){
+        this.savingsStartingBalance = savingsStartingBalance;
+    }
+
+    public double getSavingsStartingBalance(){
+        return this.savingsStartingBalance;
+    }
 };
 
 /**
@@ -405,18 +458,20 @@ class Saving extends Account {
 class Credit extends Account {
 
     
-    private double creditLimit;// credit limit for credit account
+    private double creditMax;// credit limit for credit account
+    private double startingCreditBalance;
 
     /**
      * Constructor
      * Initializes the account with an account number, customer (account holder), and a credit limit.
      * @param accountNumber Unique identifier for the account
      * @param accountHolder The customer who owns this account
-     * @param creditLimit The maximum credit limit for this account
+     * @param creditMax The maximum credit limit for this account
      */
-    public Credit(int accountNumber, Customer accountHolder, double creditLimit) {
+    public Credit(int accountNumber, Customer accountHolder, int creditMax, double startingCreditBalance) {
         super(accountNumber, accountHolder);
-        this.creditLimit = creditLimit;
+        this.startingCreditBalance = startingCreditBalance;
+        this.creditMax = creditMax;
     }
 
     /**
@@ -433,7 +488,7 @@ class Credit extends Account {
         }
 
         
-        if (Math.abs(super.getBalance()) + amount > creditLimit) {//if the amount exceeds the credit limit 
+        if (Math.abs(super.getBalance()) + amount > creditMax) {//if the amount exceeds the credit limit 
             System.out.println("Charge denied. Exceeds credit limit.");// display amount exceeds credit limit
             return false;
         } else {
@@ -480,19 +535,19 @@ class Credit extends Account {
      * 
      * @return The credit limit
      */
-    public double getCreditLimit() {
-        return creditLimit;//return credit limit
+    public double getCreditMax() {
+        return creditMax;//return credit limit
     }
 
     /**
      * Sets a new credit limit for this account.
      * 
-     * @param creditLimit The new credit limit to set
+     * @param creditMax The new credit limit to set
      */
-    public void setCreditLimit(double creditLimit) {
-        if (creditLimit >= 0) {// //if credit limit is more or equal to 0
-            this.creditLimit = creditLimit;
-            System.out.println("Credit limit updated to $" + creditLimit);//display the new credit limit
+    public void setCreditMax(double creditMax) {
+        if (creditMax >= 0) {// //if credit limit is more or equal to 0
+            this.creditMax = creditMax;
+            System.out.println("Credit limit updated to $" + creditMax);//display the new credit limit
         } else {
             System.out.println("Credit limit cannot be less than 0.");// display credit limit can not be lees than 0
         }
@@ -504,7 +559,15 @@ class Credit extends Account {
      * @return The available credit
      */
     public double getAvailableCredit() {
-        return creditLimit + super.getBalance(); // return the credit limit  and the balance to know the real credit limit
+        return creditMax + super.getBalance(); // return the credit limit  and the balance to know the real credit limit
+    }
+
+    public void setStartingCreditBalance(double startingCreditBalance){
+        this.startingCreditBalance = startingCreditBalance;
+    }
+
+    public double getStartingCreditBalance(){
+        return this.startingCreditBalance;
     }
 };
 

@@ -12,10 +12,16 @@ import java.util.List;
 public class Customer {
     private String name;
     private String address;
+    private String dob;
+    private String phoneNumber;
     private int customerId;
+<<<<<<< Updated upstream
     private String phoneNumber;
     private String dob;
     
+=======
+
+>>>>>>> Stashed changes
     private List<Account> accounts;// list of accounts owned by the customer
 
     /**
@@ -25,7 +31,11 @@ public class Customer {
      * @param address The address of the customer
      * @param customerId Unique ID associated with the customer
      */
+<<<<<<< Updated upstream
     public Customer(String name, String address, int customerId, String phoneNumber, String dob) {
+=======
+    public Customer(String name, String address, int customerId, String dob, String phoneNumber) {
+>>>>>>> Stashed changes
         this.name = name;
         this.address = address;
         this.customerId = customerId;
@@ -40,7 +50,7 @@ public class Customer {
      */
     public void addAccount(Account account) {
         accounts.add(account);//add the account
-        System.out.println("Account added for customer " + name + ".");// display account added and the name of the account holder
+        System.out.println("Account added for customer " + this.name + ".");// display account added and the name of the account holder
     }
 
     /**
@@ -103,14 +113,18 @@ public class Customer {
         return customerId;//customer's ID
     }
 
+<<<<<<< Updated upstream
     public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
     }
 
+=======
+>>>>>>> Stashed changes
     public String getPhoneNumber(){
         return phoneNumber;
     }
 
+<<<<<<< Updated upstream
     public void setDOB(String dob){
         this.dob = dob;
     }
@@ -118,6 +132,12 @@ public class Customer {
     public String getDOB(){
         return dob;
     }
+=======
+    public String getDOB(){
+        return dob;
+    }
+
+>>>>>>> Stashed changes
     /**
      * Displays customer information name, address, and accounts.
      */
@@ -142,7 +162,11 @@ public class Customer {
 
 class Account {
     private int accountNumber; //unique account number for each account
+<<<<<<< Updated upstream
     //private double balance;//current balance in the account
+=======
+    protected double balance;//current balance in the account
+>>>>>>> Stashed changes
     private Customer accountHolder;// the account holder associated with the account
     private double balance;
 
@@ -273,6 +297,7 @@ class Checking extends Account{
      * @param checkingStartingBalance the starting balance for checking account
      * @param balance total balance of checking account
      */
+<<<<<<< Updated upstream
 
     private double balance;
 
@@ -280,6 +305,11 @@ class Checking extends Account{
         super(accountNumber, accountHolder);//call the constructor of the parent class 
         this.overDraftLimit = overDraftLimit;// set the overdraft limit for the account
         this.checkingStartingBalance = checkingStartingBalance;
+=======
+    public Checking(int accountNumber, Customer accountHolder, double checkingStartingBalance) {
+        super(accountNumber, accountHolder);//call the constructor of the parent class 
+        this.balance = checkingStartingBalance;
+>>>>>>> Stashed changes
     }
 
     /**
@@ -371,8 +401,13 @@ class Saving extends Account {
      */
     public Saving(int accountNumber, Customer accountHolder, double savingsStartingBalance) {
         super(accountNumber, accountHolder);
+<<<<<<< Updated upstream
         //this.minimumBalance = minimumBalance;
         this.savingsStartingBalance = savingsStartingBalance;
+=======
+        this.balance = savingsStartingBalance;
+        
+>>>>>>> Stashed changes
     }
 
     /**
@@ -458,8 +493,14 @@ class Saving extends Account {
 class Credit extends Account {
 
     
+<<<<<<< Updated upstream
     private double creditMax;// credit limit for credit account
     private double startingCreditBalance;
+=======
+    private double creditLimit;// credit limit for credit account
+    private int creditMax;
+    private double creditStartingBalance;
+>>>>>>> Stashed changes
 
     /**
      * Constructor
@@ -468,10 +509,17 @@ class Credit extends Account {
      * @param accountHolder The customer who owns this account
      * @param creditMax The maximum credit limit for this account
      */
+<<<<<<< Updated upstream
     public Credit(int accountNumber, Customer accountHolder, int creditMax, double startingCreditBalance) {
         super(accountNumber, accountHolder);
         this.startingCreditBalance = startingCreditBalance;
         this.creditMax = creditMax;
+=======
+    public Credit(int accountNumber, Customer accountHolder, int creditMax, double creditStartingBalance) {
+        super(accountNumber, accountHolder);
+        this.creditMax = creditMax;
+        this.balance = creditStartingBalance;
+>>>>>>> Stashed changes
     }
 
     /**
@@ -537,6 +585,14 @@ class Credit extends Account {
      */
     public double getCreditMax() {
         return creditMax;//return credit limit
+    }
+
+    public int getCreditMax(){
+        return creditMax;
+    }
+
+    public double getCreditStartingBalance(){
+        return this.creditStartingBalance;
     }
 
     /**

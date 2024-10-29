@@ -137,18 +137,21 @@ public class RunBank {
                     Customer customer = new Customer(name, address, customerId, phoneNumber, dob);
                     
                     int checkingAccountNumber = (int) customerList.get("Checking Account Number");
-                    double checkingStartingBalance = (double) customerList.get("Checking Starting Balance");
+                    double checkingStartingBalance = customerList.get("Checking Starting Balance") instanceof Integer ?
+                        ((Integer) customerList.get("Checking Starting Balance")).doubleValue() : (double) customerList.get("Checking Starting Balance");
                     Checking checkingAccount = new Checking(checkingAccountNumber, customer, checkingStartingBalance);
                     customer.addAccount(checkingAccount);
 
                     int savingsAccountNumber = (int) customerList.get("Savings Account Number");
-                    double savingsStartingBalance = (double) customerList.get("Savings Starting Balance");
+                    double savingsStartingBalance = customerList.get("Savings Starting Balance") instanceof Integer ? 
+                        ((Integer) customerList.get("Savings Starting Balance")).doubleValue() : (double) customerList.get("Savings Starting Balance");
                     Saving savingsAccount = new Saving(savingsAccountNumber, customer, savingsStartingBalance);
                     customer.addAccount(savingsAccount);
 
                     int creditAccountNumber = (int) customerList.get("Credit Account Number");
                     int creditMax = (int) customerList.get("Credit Max");
-                    double creditStartingBalance = (double) customerList.get("Credit Starting Balance");
+                    double creditStartingBalance = customerList.get("Credit Starting Balance") instanceof Integer ? 
+                        ((Integer) customerList.get("Credit Starting Balance")).doubleValue(): (double) customerList.get("Credit Starting Balance");
                     Credit creditAccount = new Credit(creditAccountNumber, customer, creditMax, creditStartingBalance);
                     customer.addAccount(creditAccount);
 

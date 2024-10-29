@@ -36,9 +36,8 @@ public class RunBank {
      */
     public static void main(String[] args) {
         RunBank bank = new RunBank();
-       // bank.initializeBankUsers();
         bank.createMap();
-        bank.displayCustomerInformation();  // display all customer data
+       // bank.displayCustomerInformation();  // display all customer data
         bank.runMenu();
     }
      /**
@@ -126,6 +125,37 @@ public class RunBank {
                     }
                     customerList.add(customerMap);
                 }    
+                
+                ListIterator<Map<String, Object>> customerIterator = customerList.listIterator();
+                while(customerIterator.hasNext()){
+                    Map<String, Object> customerList = customerIterator.next();
+                    int customerId = (int) customerList.get("Identification Number");
+                    String name = (String) customerList.get("First Name") + " "+ (String) customerList.get("Last Name");
+                    String address = (String) customerList.get("Address");
+                    String phoneNumber = (String) customerList.get("Phone Number");
+                    String dob = (String) customerList.get("Date of Birth");
+                    Customer customer = new Customer(name, address, customerId, phoneNumber, dob);
+                    
+                    int checkingAccountNumber = (int) customerList.get("Checking Account Number");
+                    double checkingStartingBalance = (double) customerList.get("Checking Starting Balance");
+                    Checking checkingAccount = new Checking(checkingAccountNumber, customer, checkingStartingBalance);
+                    customer.addAccount(checkingAccount);
+
+                    int savingsAccountNumber = (int) customerList.get("Savings Account Number");
+                    double savingsStartingBalance = (double) customerList.get("Savings Starting Balance");
+                    Saving savingsAccount = new Saving(savingsAccountNumber, customer, savingsStartingBalance);
+                    customer.addAccount(savingsAccount);
+
+                    int creditAccountNumber = (int) customerList.get("Credit Account Number");
+                    int creditMax = (int) customerList.get("Credit Max");
+                    double creditStartingBalance = (double) customerList.get("Credit Starting Balance");
+                    Credit creditAccount = new Credit(creditAccountNumber, customer, creditMax, creditStartingBalance);
+                    customer.addAccount(creditAccount);
+
+                    System.out.println("Customer Object and Accounts Created.");
+                    customer.displayCustomerDetails();
+
+                }
             };
             System.out.println("File read successfully.");
         }
@@ -140,7 +170,7 @@ public class RunBank {
      */
     public void displayCustomerInformation() {
 
-        //toFix: Call function from within Customer class instead of main
+        //TO-FIX: Call function from within Customer class instead of main
         ListIterator<Map<String, Object>> it = customerList.listIterator();
         while(it.hasNext()){
             Map<String, Object> temp = it.next();
@@ -166,7 +196,13 @@ public class RunBank {
      * @return The Customer object, or null if not found
      */
     public Customer findCustomerById(int customerId) {
-        return customers.get(customerId);
+        for(Map<String, Object> customer : customerList){
+            if((int) customer.get("Identification Number") == customerId) {
+                System.out.println("Customer found: "+ customer);
+                return (Customer) customer;
+            }
+        }
+        return null;
     }
 
      /**
@@ -174,27 +210,34 @@ public class RunBank {
      * This method allows user to interact with the banking system through a menu.
      */
     public void runMenu() {
+        //TO-FIX: Flag seems redundant, review code logic.
+        System.out.println("Welcome to El Paso Miners Bank!");
         System.out.print("Are you an individual or bank manager? (I/B): ");
-        char userType = scanner.next().charAt(0);
-    
-        if (userType == 'I' || userType == 'i') {
-            // Call individual menu (existing one)
-            individualMenu();
-        } else if (userType == 'B' || userType == 'b') {
-            // Call bank manager menu
-            bankManagerMenu();
-        } else {
-            System.out.println("Invalid input. Exiting.");
-        }
+        boolean flag = true;
+        do{
+            char userType = scanner.next().charAt(0);
+            if (userType == 'I' || userType == 'i') {
+                // Call individual menu (existing one)
+                flag = false;
+                individualMenu();
+            } else if (userType == 'B' || userType == 'b') {
+                // Call bank manager menu
+                flag = false;
+                bankManagerMenu();
+            } else {
+                scanner.nextLine();
+                System.out.println("Invalid input, please select I for individual, B for bank manager.");
+            }
+        } while(flag);
     }
     public void individualMenu(){
         int choice;
         do {
-            System.out.println("Welcome to El Paso Miners Bank!");
+            System.out.println("------------- Individual Menu ----------------");
             System.out.println("1. Deposit Money");
             System.out.println("2. Withdraw Money");
             System.out.println("3. Transfer Money");
-            System.out.println("4. Display All Customers");
+            System.out.println("4. Display Account Information");
             System.out.println("5. Exit");
             System.out.print("Choose an option: ");
             choice = scanner.nextInt();
@@ -282,8 +325,8 @@ public class RunBank {
     public void handleDeposit() {
         try{ 
             System.out.print("Enter customer ID: ");
-        int customerId = scanner.nextInt();
-        Customer customer = findCustomerById(customerId);
+            int customerId = scanner.nextInt();
+            Customer customer = findCustomerById(customerId);
 
         if (customer != null) {
             System.out.print("Enter account number: ");

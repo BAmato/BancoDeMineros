@@ -16,6 +16,9 @@ public class Customer {
     private String phoneNumber;
     private int customerId;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
     private String phoneNumber;
     private String dob;
     
@@ -30,11 +33,18 @@ public class Customer {
      * @param name The name of the customer
      * @param address The address of the customer
      * @param customerId Unique ID associated with the customer
+     * @param phoneNumber The phone number associated with the customer
+     * @param dob The date of birth of the customer
+     * 
      */
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     public Customer(String name, String address, int customerId, String phoneNumber, String dob) {
 =======
     public Customer(String name, String address, int customerId, String dob, String phoneNumber) {
+>>>>>>> Stashed changes
+=======
+    public Customer(String name, String address, int customerId, String phoneNumber, String dob) {
 >>>>>>> Stashed changes
         this.name = name;
         this.address = address;
@@ -114,10 +124,14 @@ public class Customer {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
     public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
     }
 
+<<<<<<< Updated upstream
 =======
 >>>>>>> Stashed changes
     public String getPhoneNumber(){
@@ -125,16 +139,28 @@ public class Customer {
     }
 
 <<<<<<< Updated upstream
+=======
+    public String getPhoneNumber(){
+        return this.phoneNumber;
+    }
+
+>>>>>>> Stashed changes
     public void setDOB(String dob){
         this.dob = dob;
     }
 
     public String getDOB(){
+<<<<<<< Updated upstream
         return dob;
     }
 =======
     public String getDOB(){
         return dob;
+    }
+
+>>>>>>> Stashed changes
+=======
+        return this.dob;
     }
 
 >>>>>>> Stashed changes
@@ -147,7 +173,12 @@ public class Customer {
         System.out.println("Address: " + address);//display customer address
         System.out.println("Accounts:");// display customer accounts
         for (Account account : accounts) {// account is equal to account
+<<<<<<< Updated upstream
             System.out.println(" - Account Number: " + account.getAccountNumber() + ", Balance: $" + account.getBalane(account));//display account number, and balance.
+=======
+            //TOFIX : RETURN BALANCE FROM APPROIATE ACCOUNT
+            System.out.println(" - Account Number: " + account.getAccountNumber() + ", Balance: $" + account.getBalance());//display account number, and balance.
+>>>>>>> Stashed changes
         }
     }
 };
@@ -163,9 +194,13 @@ public class Customer {
 class Account {
     private int accountNumber; //unique account number for each account
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     //private double balance;//current balance in the account
 =======
     protected double balance;//current balance in the account
+>>>>>>> Stashed changes
+=======
+    //private double balance;//current balance in the account
 >>>>>>> Stashed changes
     private Customer accountHolder;// the account holder associated with the account
     private double balance;
@@ -178,7 +213,11 @@ class Account {
     public Account(int accountNumber, Customer accountHolder){
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
+<<<<<<< Updated upstream
         //this.balance = 0;// account starts with zero balance
+=======
+    //    this.balance = 0;// account starts with zero balance
+>>>>>>> Stashed changes
     }
 
     /**
@@ -186,12 +225,12 @@ class Account {
      * @param amount to deposit into the account
      */
     public void deposit(double amount){
-        if(amount > 0){// if the amount is more than 0
-        balance += amount; // add the amount to the balance
-        System.out.println("Deposited: $" + amount);// print the amount deposited
-        }else{// if not 
-            System.out.println("Invalid deposit amount");// return invalid
-        }
+        // if(amount > 0){// if the amount is more than 0
+        // balance += amount; // add the amount to the balance
+        // System.out.println("Deposited: $" + amount);// print the amount deposited
+        // }else{// if not 
+        //     System.out.println("Invalid deposit amount");// return invalid
+        // }
 
     }
 
@@ -201,22 +240,31 @@ class Account {
      *  @return  true if the withdraw is successful, false otherwise
      */
     public boolean withdraw(double amount){
-        if(amount > balance){// if the amount if more than the current balance 
-            System.out.println("Insufficient funds");// display Insufficient founds
-            return false;// return false
-        }else{
-            balance -= amount; // idf the balance is more or equal to amount
-            System.out.println("Withdrawal pf $" + amount);// display the amount desire to withdrawal
-            return true;// return true
-        }
+        // TOFIX: withdrawl from either checking or savings
+        // if(amount > balance){// if the amount if more than the current balance 
+        //     System.out.println("Insufficient funds");// display Insufficient founds
+        //     return false;// return false
+        // }else{
+        //     balance -= amount; // idf the balance is more or equal to amount
+        //     System.out.println("Withdrawal pf $" + amount);// display the amount desire to withdrawal
+        //     return true;// return true
+        // }
+        return false;
+
     }
 
     /**
      * return the current balance of the account
      * @return balance (account balance)
      */
+<<<<<<< Updated upstream
     public double getBalance(Account account){
         return account.balance;
+=======
+    public double getBalance(){
+    //    return balance;       //TOFIX : Return balance from savings or checking
+        return 0;
+>>>>>>> Stashed changes
     }
 
     public void setBalance(Account account, double balance){
@@ -232,15 +280,16 @@ class Account {
      * @return destination account if the transfer is successful, null otherwise
      */
     public Account transferFunds(Account destination, double amount){
-        if(amount > balance){// if the amount is more than the balance
-            System.out.println("Insufficient Founds");// display Insufficient founds
-            return null;// return null
-    }else{
-        this.withdraw(amount);// withdraw the amount from this account
-        destination.deposit(amount);// deposit the amount to the destination account
-        System.out.println("Transfer $" + amount + "to the account " + destination.getAccountNumber());//display the desired amount to transfer and the destination account
-        return destination;// return the destination account
-    }
+    //     if(amount > balance){// if the amount is more than the balance      //TOFIX: Fix balance, pull from checking or savings balance
+    //         System.out.println("Insufficient Founds");// display Insufficient founds
+    //         return null;// return null
+    // }else{
+    //     this.withdraw(amount);// withdraw the amount from this account
+    //     destination.deposit(amount);// deposit the amount to the destination account
+    //     System.out.println("Transfer $" + amount + "to the account " + destination.getAccountNumber());//display the desired amount to transfer and the destination account
+    //     return destination;// return the destination account
+    // }
+        return null;
     }
 
     /**
@@ -492,6 +541,7 @@ class Saving extends Account {
  */
 class Credit extends Account {
 
+<<<<<<< Updated upstream
     
 <<<<<<< Updated upstream
     private double creditMax;// credit limit for credit account
@@ -501,12 +551,17 @@ class Credit extends Account {
     private int creditMax;
     private double creditStartingBalance;
 >>>>>>> Stashed changes
+=======
+    private double creditLimit;// credit limit for credit account
+    private double startingCreditBalance;
+>>>>>>> Stashed changes
 
     /**
      * Constructor
      * Initializes the account with an account number, customer (account holder), and a credit limit.
      * @param accountNumber Unique identifier for the account
      * @param accountHolder The customer who owns this account
+<<<<<<< Updated upstream
      * @param creditMax The maximum credit limit for this account
      */
 <<<<<<< Updated upstream
@@ -519,6 +574,15 @@ class Credit extends Account {
         super(accountNumber, accountHolder);
         this.creditMax = creditMax;
         this.balance = creditStartingBalance;
+>>>>>>> Stashed changes
+=======
+     * @param creditLimit The maximum credit limit for this account
+     * @param startingCreditBalance The amount of credit the account is initialized with
+     */
+    public Credit(int accountNumber, Customer accountHolder, double creditLimit, double startingCreditBalance) {
+        super(accountNumber, accountHolder);
+        this.creditLimit = creditLimit;
+        this.startingCreditBalance = startingCreditBalance;
 >>>>>>> Stashed changes
     }
 
@@ -616,6 +680,14 @@ class Credit extends Account {
      */
     public double getAvailableCredit() {
         return creditMax + super.getBalance(); // return the credit limit  and the balance to know the real credit limit
+    }
+
+    public void setStartingCreditBalance(double startingCreditBalance){
+        this.startingCreditBalance = startingCreditBalance;
+    }
+
+    public double getStartingCreditBalance(){
+        return this.startingCreditBalance;
     }
 
     public void setStartingCreditBalance(double startingCreditBalance){

@@ -15,16 +15,7 @@ public class Customer {
     private String dob;
     private String phoneNumber;
     private int customerId;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-    private String phoneNumber;
-    private String dob;
-    
-=======
 
->>>>>>> Stashed changes
     private List<Account> accounts;// list of accounts owned by the customer
 
     /**
@@ -37,15 +28,10 @@ public class Customer {
      * @param dob The date of birth of the customer
      * 
      */
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
+
     public Customer(String name, String address, int customerId, String phoneNumber, String dob) {
-=======
-    public Customer(String name, String address, int customerId, String dob, String phoneNumber) {
->>>>>>> Stashed changes
-=======
-    public Customer(String name, String address, int customerId, String phoneNumber, String dob) {
->>>>>>> Stashed changes
+
         this.name = name;
         this.address = address;
         this.customerId = customerId;
@@ -123,47 +109,22 @@ public class Customer {
         return customerId;//customer's ID
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
     public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
     }
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-    public String getPhoneNumber(){
-        return phoneNumber;
-    }
-
-<<<<<<< Updated upstream
-=======
     public String getPhoneNumber(){
         return this.phoneNumber;
     }
 
->>>>>>> Stashed changes
     public void setDOB(String dob){
         this.dob = dob;
     }
 
     public String getDOB(){
-<<<<<<< Updated upstream
-        return dob;
-    }
-=======
-    public String getDOB(){
-        return dob;
-    }
 
->>>>>>> Stashed changes
-=======
         return this.dob;
     }
-
->>>>>>> Stashed changes
     /**
      * Displays customer information name, address, and accounts.
      */
@@ -173,12 +134,9 @@ public class Customer {
         System.out.println("Address: " + address);//display customer address
         System.out.println("Accounts:");// display customer accounts
         for (Account account : accounts) {// account is equal to account
-<<<<<<< Updated upstream
-            System.out.println(" - Account Number: " + account.getAccountNumber() + ", Balance: $" + account.getBalane(account));//display account number, and balance.
-=======
+
             //TOFIX : RETURN BALANCE FROM APPROIATE ACCOUNT
             System.out.println(" - Account Number: " + account.getAccountNumber() + ", Balance: $" + account.getBalance());//display account number, and balance.
->>>>>>> Stashed changes
         }
     }
 };
@@ -193,17 +151,13 @@ public class Customer {
 
 class Account {
     private int accountNumber; //unique account number for each account
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     //private double balance;//current balance in the account
-=======
     protected double balance;//current balance in the account
->>>>>>> Stashed changes
-=======
+
     //private double balance;//current balance in the account
->>>>>>> Stashed changes
     private Customer accountHolder;// the account holder associated with the account
-    private double balance;
+
 
     /**
      * constructor for account class
@@ -213,11 +167,11 @@ class Account {
     public Account(int accountNumber, Customer accountHolder){
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
-<<<<<<< Updated upstream
+
         //this.balance = 0;// account starts with zero balance
-=======
+
     //    this.balance = 0;// account starts with zero balance
->>>>>>> Stashed changes
+
     }
 
     /**
@@ -257,14 +211,11 @@ class Account {
      * return the current balance of the account
      * @return balance (account balance)
      */
-<<<<<<< Updated upstream
-    public double getBalance(Account account){
-        return account.balance;
-=======
+
     public double getBalance(){
     //    return balance;       //TOFIX : Return balance from savings or checking
         return 0;
->>>>>>> Stashed changes
+
     }
 
     public void setBalance(Account account, double balance){
@@ -346,19 +297,12 @@ class Checking extends Account{
      * @param checkingStartingBalance the starting balance for checking account
      * @param balance total balance of checking account
      */
-<<<<<<< Updated upstream
-
     private double balance;
 
-    public Checking(int accountNumber, Customer accountHolder, double overDraftLimit, double checkingStartingBalance) {
-        super(accountNumber, accountHolder);//call the constructor of the parent class 
-        this.overDraftLimit = overDraftLimit;// set the overdraft limit for the account
-        this.checkingStartingBalance = checkingStartingBalance;
-=======
     public Checking(int accountNumber, Customer accountHolder, double checkingStartingBalance) {
         super(accountNumber, accountHolder);//call the constructor of the parent class 
         this.balance = checkingStartingBalance;
->>>>>>> Stashed changes
+
     }
 
     /**
@@ -450,13 +394,7 @@ class Saving extends Account {
      */
     public Saving(int accountNumber, Customer accountHolder, double savingsStartingBalance) {
         super(accountNumber, accountHolder);
-<<<<<<< Updated upstream
-        //this.minimumBalance = minimumBalance;
-        this.savingsStartingBalance = savingsStartingBalance;
-=======
         this.balance = savingsStartingBalance;
-        
->>>>>>> Stashed changes
     }
 
     /**
@@ -541,41 +479,16 @@ class Saving extends Account {
  */
 class Credit extends Account {
 
-<<<<<<< Updated upstream
-    
-<<<<<<< Updated upstream
-    private double creditMax;// credit limit for credit account
-    private double startingCreditBalance;
-=======
     private double creditLimit;// credit limit for credit account
     private int creditMax;
-    private double creditStartingBalance;
->>>>>>> Stashed changes
-=======
-    private double creditLimit;// credit limit for credit account
     private double startingCreditBalance;
->>>>>>> Stashed changes
 
     /**
      * Constructor
      * Initializes the account with an account number, customer (account holder), and a credit limit.
      * @param accountNumber Unique identifier for the account
      * @param accountHolder The customer who owns this account
-<<<<<<< Updated upstream
      * @param creditMax The maximum credit limit for this account
-     */
-<<<<<<< Updated upstream
-    public Credit(int accountNumber, Customer accountHolder, int creditMax, double startingCreditBalance) {
-        super(accountNumber, accountHolder);
-        this.startingCreditBalance = startingCreditBalance;
-        this.creditMax = creditMax;
-=======
-    public Credit(int accountNumber, Customer accountHolder, int creditMax, double creditStartingBalance) {
-        super(accountNumber, accountHolder);
-        this.creditMax = creditMax;
-        this.balance = creditStartingBalance;
->>>>>>> Stashed changes
-=======
      * @param creditLimit The maximum credit limit for this account
      * @param startingCreditBalance The amount of credit the account is initialized with
      */
@@ -583,7 +496,6 @@ class Credit extends Account {
         super(accountNumber, accountHolder);
         this.creditLimit = creditLimit;
         this.startingCreditBalance = startingCreditBalance;
->>>>>>> Stashed changes
     }
 
     /**
@@ -647,16 +559,8 @@ class Credit extends Account {
      * 
      * @return The credit limit
      */
-    public double getCreditMax() {
-        return creditMax;//return credit limit
-    }
-
     public int getCreditMax(){
         return creditMax;
-    }
-
-    public double getCreditStartingBalance(){
-        return this.creditStartingBalance;
     }
 
     /**
@@ -664,7 +568,7 @@ class Credit extends Account {
      * 
      * @param creditMax The new credit limit to set
      */
-    public void setCreditMax(double creditMax) {
+    public void setCreditMax(int creditMax) {
         if (creditMax >= 0) {// //if credit limit is more or equal to 0
             this.creditMax = creditMax;
             System.out.println("Credit limit updated to $" + creditMax);//display the new credit limit
@@ -680,14 +584,6 @@ class Credit extends Account {
      */
     public double getAvailableCredit() {
         return creditMax + super.getBalance(); // return the credit limit  and the balance to know the real credit limit
-    }
-
-    public void setStartingCreditBalance(double startingCreditBalance){
-        this.startingCreditBalance = startingCreditBalance;
-    }
-
-    public double getStartingCreditBalance(){
-        return this.startingCreditBalance;
     }
 
     public void setStartingCreditBalance(double startingCreditBalance){

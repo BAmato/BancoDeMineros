@@ -20,14 +20,14 @@ import java.util.ListIterator;;
 public class RunBank {
 
     // Map to store customers by their ID
-    private Map<Integer, Customer> customers = new HashMap<>();
+    private static Map<Integer, Customer> customers = new HashMap<>();
 
     /*Creating a list that will hold all maps containing the database data.
     The map consists of a string holding the header (column name) and row containing all the headers data.
     Using a list allows us for dynamic sizing as the size of the excel file is assumed to be unknown*/
-    List<Map<String, Object>> customerList = new ArrayList<>();     
+    private static List<Map<String, Object>> customerList = new ArrayList<>();     
     
-    private Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     private static final String LOG_FILE = "Bank_transaction.log";//log file name
 
     /**
@@ -35,17 +35,15 @@ public class RunBank {
      * This method will initialize bank customers and allow for interaction with their accounts.
      */
     public static void main(String[] args) {
-        RunBank bank = new RunBank();
-        bank.createMap();
+        createMap();
        // bank.displayCustomerInformation();  // display all customer data
-        bank.runMenu();
-        bank.createMap();
+        runMenu();
     }
      /**
       * Logs a transaction with a timestamp.
       *@param logMessage The message to be logged
       */
-    private void logTransaction (String logMessage) {
+    private static void logTransaction (String logMessage) {
         try (FileWriter writer = new FileWriter(LOG_FILE, true)) {
             writer.write(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + " - " + logMessage + "\n");
         } catch (IOException e) {
@@ -59,7 +57,7 @@ public class RunBank {
      * This method simulates accessing bank system information.
      */
 
-    public void createMap(){
+    public static void createMap(){
 
         String database = "C:\\Users\\bryan\\Downloads\\BankUsersTest.csv";            //File name in folder must match this
        // String database = "BankUsersActive.csv"
@@ -172,7 +170,7 @@ public class RunBank {
     /**
      * Displays all customers and their account details.
      */
-    public void displayCustomerInformation() {
+    public static void displayCustomerInformation() {
 
         //TO-FIX: Call function from within Customer class instead of main
         ListIterator<Map<String, Object>> it = customerList.listIterator();
@@ -199,7 +197,7 @@ public class RunBank {
      * @param customerId The ID of the customer
      * @return The Customer object, or null if not found
      */
-    public Customer findCustomerById(int customerId) {
+    public static Customer findCustomerById(int customerId) {
         for(Map<String, Object> customer : customerList){
             if((int) customer.get("Identification Number") == customerId) {
                 System.out.println("Customer found: "+ customer);
@@ -213,7 +211,7 @@ public class RunBank {
      * Menu system for bank interactions.
      * This method allows user to interact with the banking system through a menu.
      */
-    public void runMenu() {
+    public static void runMenu() {
         //TO-FIX: Flag seems redundant, review code logic.
         System.out.println("Welcome to El Paso Miners Bank!");
         System.out.print("Are you an individual or bank manager? (I/B): ");
@@ -234,7 +232,8 @@ public class RunBank {
             }
         } while(flag);
     }
-    public void individualMenu(){
+
+    public static void individualMenu(){
         int choice;
         do {
             System.out.println("------------- Individual Menu ----------------");
@@ -268,7 +267,7 @@ public class RunBank {
         } while (choice != 5);
     }
 
-    public void bankManagerMenu(){
+    public static void bankManagerMenu(){
         int choice;
         do {
             System.out.println("Welcome Bank Manager!");
@@ -293,7 +292,7 @@ public class RunBank {
             }
         } while (choice != 3);
     }
-    public void inquireAccountByName() {
+    public static void inquireAccountByName() {
         System.out.print("Enter customer name: ");
         scanner.nextLine(); // Consume newline
         String name = scanner.nextLine();
@@ -306,7 +305,7 @@ public class RunBank {
         System.out.println("Customer not found.");
     }
     
-    public void inquireAccountByTypeOrNumber() {
+    public static void inquireAccountByTypeOrNumber() {
         System.out.print("Enter account type (Checking/Saving/Credit): ");
         String type = scanner.next();
         System.out.print("Enter account number: ");
@@ -326,7 +325,7 @@ public class RunBank {
     /**
      * Handles deposits to a customer account.
      */
-    public void handleDeposit() {
+    public static void handleDeposit() {
         try{ 
             System.out.print("Enter customer ID: ");
             int customerId = scanner.nextInt();
@@ -360,7 +359,7 @@ public class RunBank {
     /**
      * Handles withdrawals from a customer account.
      */
-    public void handleWithdrawal() {
+    public static void handleWithdrawal() {
         System.out.print("Enter customer ID: ");
         int customerId = scanner.nextInt();
         Customer customer = findCustomerById(customerId);
@@ -393,7 +392,7 @@ public class RunBank {
     /**
      * Handles transferring money between two accounts.
      */
-    public void handleTransfer() {
+    public static void handleTransfer() {
         System.out.print("Enter sender customer ID: ");
         int senderId = scanner.nextInt();
         Customer sender = findCustomerById(senderId);
@@ -451,7 +450,7 @@ public class RunBank {
     //     }
     // }
     
-    public void exitProgram() {
+    public static void exitProgram() {
         //saveBankUsers();
         System.out.println("Thank you for using El Paso Miners Bank. Goodbye!");
         System.exit(0);

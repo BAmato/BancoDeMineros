@@ -136,7 +136,7 @@ public class Customer {
         for (Account account : accounts) {// account is equal to account
 
             //TOFIX : RETURN BALANCE FROM APPROIATE ACCOUNT
-            System.out.println(" - Account Number: " + account.getAccountNumber() + ", Balance: $" + account.getBalance());//display account number, and balance.
+            System.out.println(" - Account Number: " + account.getAccountNumber());//display account number
         }
     }
 };
@@ -302,7 +302,7 @@ class Checking extends Account{
     public Checking(int accountNumber, Customer accountHolder, double checkingStartingBalance) {
         super(accountNumber, accountHolder);//call the constructor of the parent class 
         this.balance = checkingStartingBalance;
-
+        System.out.println(" - Checking Starting Balance: " + checkingStartingBalance);//display checking starting balance
     }
 
     /**
@@ -395,6 +395,7 @@ class Saving extends Account {
     public Saving(int accountNumber, Customer accountHolder, double savingsStartingBalance) {
         super(accountNumber, accountHolder);
         this.balance = savingsStartingBalance;
+        System.out.println(" - Savings Starting Balance: " + savingsStartingBalance);//display checking starting balance
     }
 
     /**
